@@ -4,6 +4,10 @@ var Multi_Post = require('./multi_posts.react.js');
 
 var Container_Post = React.createClass({
 
+  handleClick: function (e) {
+    e.stopPropagation()
+  },
+
   render: function () {
 
     var cposts = (this.props.cposts).map(function (posts, j) {
@@ -16,7 +20,7 @@ var Container_Post = React.createClass({
     });
 
     return (
-      <div className='cpost' id='cpostList'>
+      <div className='cpost' id='cpostList' onClick={this.handleClick}>
         {cposts}
       </div>
     );

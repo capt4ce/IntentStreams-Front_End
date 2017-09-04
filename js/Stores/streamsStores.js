@@ -19,9 +19,11 @@ function getData(post,keyword) {
 
 // Extend Cart Store with EventEmitter to add eventing capabilities
 var ShowStore = _.extend({}, EventEmitter.prototype, {
-  // Return cart items
-  getDataInfo: function () {
+  
+  loadDataInfo:function(){
     loadData("chirag");
+  },
+  getDataInfo: function () {
     return _stream;
    } ,
   // Emit Change event
