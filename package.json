@@ -10,7 +10,9 @@
     "flux": "^2.0.0",
     "jsonp": "^0.2.1",
     "keymirror": "^0.1.1",
+    "npm-sass": "^2.2.1",
     "react": "^15.3.0",
+    "react-bootstrap": "^0.31.2",
     "react-dom": "^15.3.0",
     "react-draggable": "^3.0.2",
     "react-router": "^3.0.2",
@@ -42,7 +44,8 @@
     "start": "watchify -o js/bundle.js -v -d .",
     "build": "browserify . | uglifyjs -cm > js/bundle.min.js",
     "test": "jest",
-    "dev": "./node_modules/.bin/webpack-dev-server --content-base . --hot"
+    "dev": "./node_modules/.bin/webpack-dev-server --content-base . --hot",
+    "sass": "npm-sass ./public/sass/streams.sass > ./public/css/streams.css"
   },
   "author": "Ken Wheeler",
   "contributors": [

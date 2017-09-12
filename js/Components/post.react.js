@@ -48,10 +48,10 @@ var Post = React.createClass({
 		else
 			return (
 				<div className='post-body' onClick={this.hideDetail}>
-					{this.props.post.title}
-					{this.props.post.description}
-					{this.props.post.latitude}
-					{this.props.post.longitude}
+					<div>{this.props.post.title}</div>
+					<div>{this.props.post.description}</div>
+					<div>{this.props.post.latitude}</div>
+					<div>{this.props.post.longitude}</div>
 				</div>
 			);
 		// return (

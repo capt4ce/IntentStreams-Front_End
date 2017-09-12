@@ -87,7 +87,7 @@ var StreamApp = React.createClass({
     else
       search = null;
     return (
-      <div className="flux-streams-app" onClick={this.showPart} style={{ 'background-color': 'red', padding: '25px' }}>
+      <div className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }}>
         {search}
 
 
