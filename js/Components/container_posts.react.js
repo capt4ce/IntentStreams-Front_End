@@ -26,11 +26,11 @@ var Container_Post = React.createClass({
 
     return (
       <Row className="show-grid">
-        <Col xs={3} className="hello">
-          <div className='cpost' id='cpostList' onClick={this.handleClick}>
-            {cposts}
-          </div>
-        </Col>
+
+        <div className='cpost' id='cpostList' onClick={this.handleClick}>
+          {cposts}
+        </div>
+
 
       </Row>
     );

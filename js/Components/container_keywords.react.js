@@ -24,11 +24,11 @@ var Container_Keyword = React.createClass({
 
     return (
       <Row className="show-grid">
-        <Col xs={3}>
-          <div className='ckeyword' id='ckeywordList' onClick={this.handleClick}>
-            {ckeyword}
-          </div>
-        </Col>
+
+        <div className='ckeyword' id='ckeywordList' onClick={this.handleClick}>
+          {ckeyword}
+        </div>
+
 
       </Row>
     );

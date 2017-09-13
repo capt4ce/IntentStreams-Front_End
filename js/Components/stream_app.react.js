@@ -81,20 +81,29 @@ var StreamApp = React.createClass({
   // Render our child components, passing state via props
   render: function () {
     // console.log(this.state)
-    var search;
+
+    var search, stream;
     if (this.state.showPart)
       search = <SearchBar query={this.state.search_query} typeQuery={this.typeQuery} submitSearch={this.submitSearch} hidePart={this.hidePart} posX={this.state.partX} posY={this.state.partY} />
     else
       search = null;
+
+    if ("data" in this.state && this.state.data.length != 0)
+      stream = (
+        <div class="together col-xs-3">
+          <Container_Post cposts={this.state.data} />
+
+          <Container_Keyword ckeyword={this.state.data} />
+        </div>
+      )
+    else
+      stream = null;
+
     return (
       <div className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }}>
         {search}
 
-
-        <Container_Post cposts={this.state.data} />
-
-        <Container_Keyword ckeyword={this.state.data} />
-
+        {stream}
       </div>
 
     );
