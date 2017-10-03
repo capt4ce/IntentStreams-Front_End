@@ -134,9 +134,18 @@ var StreamApp = React.createClass({
 
     var container = (this.state.data).map(function(datas,i){
       return(
+        // <div class="together col-xs-3">
+        // {/* {post[i]} */}
+        // {keyword[i]}
+        // </div>
         <div class="together col-xs-3">
-        {post}
-        {keyword}
+         {/* {post[i]} */}
+         <div>
+         <Multi_Post posts={datas.post} key={i}/>
+         </div>
+         <div>
+         <Multi_Keyword keywords={datas.keyword} key={i} />
+           </div>
         </div>
       )}
     )
@@ -148,6 +157,8 @@ var StreamApp = React.createClass({
       // )
       // var stream=(<Container_Keyword ckeyword={this.state.data}/>)
     }
+
+    
     
     else{
       container = null;
