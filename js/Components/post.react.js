@@ -47,11 +47,11 @@ var Post = React.createClass({
 			);
 		else
 			return (
-				<div className='post-body' onClick={this.hideDetail}>
-					<div>{this.props.post.title}</div>
-					<div>{this.props.post.description}</div>
-					<div>{this.props.post.latitude}</div>
-					<div>{this.props.post.longitude}</div>
+				<div className='post-body info' onClick={this.hideDetail}>
+					<div><label>Title</label>{this.props.post.title}</div>
+					<div><label>Description</label>{this.props.post.description}</div>
+					<div><label>Latitude</label>{this.props.post.latitude}</div>
+					<div><label>Longitude</label>{this.props.post.longitude}</div>
 				</div>
 			);
 		// return (

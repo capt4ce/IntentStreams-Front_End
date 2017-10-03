@@ -39,3 +39,19 @@
 
 .close {
   float: right !important; }
+
+.together {
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  height: 100%; }
+
+#postList {
+  padding: 15px; }
+
+#keywordList {
+  padding: 15px; }
+
+.info {
+  background-color: white; }
+
+label {
+  margin-right: 10px; }

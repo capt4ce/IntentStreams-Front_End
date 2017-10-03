@@ -4,10 +4,13 @@ var Post = require('./post.react.js');
 
 var Multi_Post = React.createClass({
 
-  render: function () {
+  handleClick: function (e) {
+    e.stopPropagation()
+  },
 
+  render: function () {
+   
     var posts = (this.props.posts).map(function (post, i) {
-      console.log(post)
       return (
         <Post
           key={i}
@@ -15,9 +18,13 @@ var Multi_Post = React.createClass({
       );
 
     });
-    console.log("buh")
+  
+
+    if (this.props.posts.length == 0)
+      return null;
+
     return (
-      <div className='post' id='postList'>
+      <div className='post' id='postList' onClick={this.handleClick}>
         {posts}
       </div>
     );
