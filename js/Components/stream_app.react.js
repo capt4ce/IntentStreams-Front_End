@@ -7,6 +7,7 @@ var Container = require('./container.react.js');
 var Multi_Post = require('./multi_posts.react.js');
 var Multi_Keyword = require('./multi_keywords.react.js');
 
+var StreamAPI = require('../API/streamsAPI.js');
 
 
 
@@ -35,21 +36,6 @@ var StreamApp = React.createClass({
   // Remove change listeners from stores
   componentWillUnmount: function () {
     ShowStore.removeChangeListener(this._onChange);
-  },
-
-  handleStart: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
-  },
-
-  handleDrag: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
-  },
-
-  handleStop: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
   },
 
   handleClick: function (e) {
@@ -87,15 +73,18 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showPart: true,
-      search_query: e.value,
+      search_query: e.target.value,
       partX: this.state.partX,
       partY: this.state.partY
     });
   },
 
   submitSearch: function (e) {
-    ShowStore.loadDataInfo();
-    return false
+    e.preventDefault()
+    console.log('search query=' + (this.state.search_query))
+    // ShowStore.loadDataInfo(this.state.search_query);
+    StreamAPI.getDataValue(this.state.search_query);
+    return true
   },
 
 
@@ -108,7 +97,7 @@ var StreamApp = React.createClass({
       search = <SearchBar query={this.state.search_query} typeQuery={this.typeQuery} submitSearch={this.submitSearch} hidePart={this.hidePart} posX={this.state.partX} posY={this.state.partY} />
     else
       search = null;
-    console.log(this.state.data)
+
     // if ("data" in this.state && this.state.data.length != 0)
 
     // var stream = (

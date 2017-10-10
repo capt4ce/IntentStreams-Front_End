@@ -4,28 +4,31 @@ var FluxCartConstants = require('../Constants/streamsConstants');
 var StreamAPI = require('../API/streamsAPI.js');
 var _ = require('underscore');
 
-var _stream=[];
+var _stream = [];
 
-function loadData(data){
-    StreamAPI.getDataValue(data);
+function loadData(data) {
+  StreamAPI.getDataValue(data);
 }
 
-function getData(post,keyword) {
-   _stream.push({
-     post : post ,
-     keyword : keyword
-   })
+function getData(post, keyword) {
+  console.log('post:' + JSON.stringify(post))
+  console.log('keyword:' + JSON.stringify(keyword))
+  _stream.push({
+    post: post,
+    keyword: keyword
+  })
 }
 
 // Extend Cart Store with EventEmitter to add eventing capabilities
 var ShowStore = _.extend({}, EventEmitter.prototype, {
-  
-  loadDataInfo:function(){
-    loadData("chirag");
+
+  loadDataInfo: function (query) {
+    loadData(query);
+    console.log(query)
   },
   getDataInfo: function () {
     return _stream;
-   } ,
+  },
   // Emit Change event
   emitChange: function () {
     this.emit('change');
@@ -47,11 +50,11 @@ AppDispatcher.register(function (payload) {
   switch (action.actionType) {
     // Respond to CART_ADD action
     case FluxCartConstants.LOAD_STUFFS:
-      getData(action.post,action.keyword);
+      getData(action.post, action.keyword);
       break;
-    
 
-    
+
+
     default:
       return true;
   }

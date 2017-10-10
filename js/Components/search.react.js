@@ -13,36 +13,14 @@ var SearchBar = React.createClass({
     e.stopPropagation()
   },
 
-  handleStart: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
-  },
-
-  handleDrag: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
-  },
-
-  handleStop: function (event, ui) {
-    console.log('Event: ', event);
-    console.log('Position: ', ui.position);
-  },
 
 
   render: function () {
     return (
 
-      // <Draggable
-      //   defaultPosition={{ x: 0, y: 0 }}
-      //   position={null}
-      //   onStart={this.handleStart}
-      //   onDrag={this.handleDrag}
-      //   onStop={this.handleStop}>
-
-
       <div style={{ position: "fixed", left: this.props.posX - 20, top: this.props.posY - 30 }} className="row" >
         <div className="col-xs-6 search_bar">
-          
+
           <form onSubmit={this.props.submitSearch} className="input col-xs-4">
 
             <FormControl
