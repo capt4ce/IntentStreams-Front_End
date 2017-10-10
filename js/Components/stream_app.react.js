@@ -1,11 +1,12 @@
 var React = require('react');
 var ShowStore = require('../Stores/streamsStores');
 // var Container_Post = require('./container_posts.react.js');
-var Container_Keyword = require('./container_keywords.react.js');
+// var Container_Keyword = require('./container_keywords.react.js');
 var SearchBar = require('./search.react.js');
 var Container = require('./container.react.js');
 var Multi_Post = require('./multi_posts.react.js');
 var Multi_Keyword = require('./multi_keywords.react.js');
+
 
 
 
@@ -36,6 +37,24 @@ var StreamApp = React.createClass({
     ShowStore.removeChangeListener(this._onChange);
   },
 
+  handleStart: function (event, ui) {
+    console.log('Event: ', event);
+    console.log('Position: ', ui.position);
+  },
+
+  handleDrag: function (event, ui) {
+    console.log('Event: ', event);
+    console.log('Position: ', ui.position);
+  },
+
+  handleStop: function (event, ui) {
+    console.log('Event: ', event);
+    console.log('Position: ', ui.position);
+  },
+
+  handleClick: function (e) {
+    e.stopPropagation()
+  },
 
 
   showPart: function (e, target) {
@@ -91,64 +110,66 @@ var StreamApp = React.createClass({
       search = null;
     console.log(this.state.data)
     // if ("data" in this.state && this.state.data.length != 0)
-      
+
     // var stream = (
-       
+
     //       <div class="together col-xs-3">
     //         <Container_Post cposts={this.state.data}/>
 
     //         <Container_Keyword ckeyword={this.state.data}/>
     //       </div>
-       
+
     //   )
-    
+
     // else
     //   var stream = null;
 
     // console.log(Multi_Keyword)
-    if ("data" in this.state && this.state.data.length != 0){
+    if ("data" in this.state && this.state.data.length != 0) {
 
-      var post = (this.state.data).map(function(datas,i){
-      return(
-       <Multi_Post posts={datas.post} key={i}/>
+      var post = (this.state.data).map(function (datas, i) {
+        return (
+          <Multi_Post posts={datas.post} key={i} />
+        )
+      })
+
+      var keyword = (this.state.data).map(function (datas, i) {
+        return (
+          <Multi_Keyword keywords={datas.keyword} key={i} />
+        )
+      }
       )
-    })
 
-      var keyword = (this.state.data).map(function(datas,i){
-      return(
-      <Multi_Keyword keywords={datas.keyword} key={i} />
-      )}
-    )
+      //   var container = []
+      //   var keywords = []
 
-    //   var container = []
-    //   var keywords = []
+      // for (var stream in this.state.data){
+      //   var streams = (
+      //     <div class="together col-xs-3">
+      //     <Multi_Post posts={stream.post} key={1}/>
+      //     {/* <Multi_Keyword keywords={stream.keyword} /> */}
+      //     </div>)
+      //     container.push(streams)
+      // }
+      // console.log(datas.post)
+      var container = (this.state.data).map(function (datas, i) {
+        return (
 
-    // for (var stream in this.state.data){
-    //   var streams = (
-    //     <div class="together col-xs-3">
-    //     <Multi_Post posts={stream.post} key={1}/>
-    //     {/* <Multi_Keyword keywords={stream.keyword} /> */}
-    //     </div>)
-    //     container.push(streams)
-    // }
 
-    var container = (this.state.data).map(function(datas,i){
-      return(
-        // <div class="together col-xs-3">
-        // {/* {post[i]} */}
-        // {keyword[i]}
-        // </div>
-        <div class="together col-xs-3">
-         {/* {post[i]} */}
-         <div>
-         <Multi_Post posts={datas.post} key={i}/>
-         </div>
-         <div>
-         <Multi_Keyword keywords={datas.keyword} key={i} />
-           </div>
-        </div>
-      )}
-    )
+          <div class="together col-xs-3">
+            {/* {post[i]} */}
+            <div className="multi_post">
+              <Multi_Post posts={datas.post} key={i} />
+            </div>
+            <div className="multi_keyword">
+              <Multi_Keyword keywords={datas.keyword} key={i} />
+            </div>
+          </div>
+
+
+        )
+      }
+      )
       // var container=(
       //   <div class="together col-xs-3">
       //   {post}
@@ -158,33 +179,32 @@ var StreamApp = React.createClass({
       // var stream=(<Container_Keyword ckeyword={this.state.data}/>)
     }
 
-    
-    
-    else{
+
+
+    else {
       container = null;
     }
 
-//     var stream = (this.state.data).map(function (datas, i) {
-//       console.log(post)
-//       return (
-//         <h1>{datas}</h1>
-//       );
+    //     var stream = (this.state.data).map(function (datas, i) {
+    //       console.log(post)
+    //       return (
+    //         <h1>{datas}</h1>
+    //       );
 
-//     });
+    //     });
 
-//     if ("data" in this.state && this.state.data.length != 0)
-//       stream = <Container data={this.state.data}/>
-//       else
-//         stream=null
+    //     if ("data" in this.state && this.state.data.length != 0)
+    //       stream = <Container data={this.state.data}/>
+    //       else
+    //         stream=null
 
     return (
       <div className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }}>
         {search}
 
-        
+
         {container}
       </div >
-
     );
   },
 

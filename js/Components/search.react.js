@@ -40,9 +40,9 @@ var SearchBar = React.createClass({
       //   onStop={this.handleStop}>
 
 
-      <div style={{ position: "relative", left: this.props.posX - 20, top: this.props.posY - 30 }} className="row" >
-        <div className="col-xs-6">
-          <Button bsStyle="danger" onClick={this.props.hidePart}>Close</Button>
+      <div style={{ position: "fixed", left: this.props.posX - 20, top: this.props.posY - 30 }} className="row" >
+        <div className="col-xs-6 search_bar">
+          
           <form onSubmit={this.props.submitSearch} className="input col-xs-4">
 
             <FormControl
@@ -53,6 +53,8 @@ var SearchBar = React.createClass({
               onClick={this.enter}
 
             />
+
+            <Button bsStyle="danger" onClick={this.props.hidePart}>Close</Button>
 
           </form>
         </div>

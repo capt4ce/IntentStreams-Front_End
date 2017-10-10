@@ -20,10 +20,10 @@ var Keyword = React.createClass({
 
     handleClick: function (e) {
         e.stopPropagation()
-      },
+    },
 
     render: function () {
-    
+
         return (
             <Draggable
                 defaultPosition={{ x: 0, y: 0 }}
