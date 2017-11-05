@@ -9,6 +9,10 @@ var Multi_Keyword = require('./multi_keywords.react.js');
 
 var StreamAPI = require('../API/streamsAPI.js');
 
+//var Droppable  = require('react-drag-and-drop');
+
+import { Droppable } from 'react-drag-and-drop' ;
+
 
 
 // Method to retrieve state from Stores
@@ -85,6 +89,13 @@ var StreamApp = React.createClass({
     // ShowStore.loadDataInfo(this.state.search_query);
     StreamAPI.getDataValue(this.state.search_query);
     return true
+  },
+
+  alert : function (data){
+    
+   // alert(JSON.stringify(data.keyword));
+    StreamAPI.getDataValue(data.keyword);
+
   },
 
 
@@ -188,12 +199,12 @@ var StreamApp = React.createClass({
     //         stream=null
 
     return (
-      <div className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }}>
+      <Droppable className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }} types={['keyword']} onDrop={this.alert.bind(this)}>
         {search}
 
 
         {container}
-      </div >
+      </Droppable >
     );
   },
 

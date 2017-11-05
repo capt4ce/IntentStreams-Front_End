@@ -2,6 +2,7 @@ var React = require('react');
 var ShowStore = require('../Stores/streamsStores');
 var Container_Post = require('./container_posts');
 var Container_Keyword = require('./container_keywords');
+var Droppable  = require('react-drag-and-drop');
 //import NpsForecastMap from './container.react.js';
 
 

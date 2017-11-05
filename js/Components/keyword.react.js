@@ -1,5 +1,7 @@
 var React = require('react');
-var Draggable = require('react-draggable');
+//var Draggable = require('react-drag-and-drop');
+
+import { Draggable } from 'react-drag-and-drop' ;
 
 var Keyword = React.createClass({
 
@@ -31,7 +33,9 @@ var Keyword = React.createClass({
                 onStart={this.handleStart}
                 onDrag={this.handleDrag}
                 onStop={this.handleStop}
-                onClick={this.handleClick}>
+                onClick={this.handleClick}
+                data={this.props.keyword.title}
+                type="keyword">
                 <div className='keyword-body'>
                     {this.props.keyword.title}
                 </div>
