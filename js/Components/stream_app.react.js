@@ -169,7 +169,7 @@ var StreamApp = React.createClass({
         return (
 
 
-          <div class="together col-xs-3">
+          <div class="together">
             {/* {post[i]} */}
 
             <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>

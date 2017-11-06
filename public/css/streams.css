@@ -1,5 +1,10 @@
 .post {
-  height: 100%; }
+  height: 100%;
+}
+
+.post-body{
+  cursor: pointer;
+}
 
 #flux-stream {
   height: 100%;
@@ -15,57 +20,83 @@
   background: -moz-linear-gradient(#90caf9, #a1887f);
   /* For Firefox 3.6 to 15 */
   background: linear-gradient(#90caf9, #a1887f);
-  /* Standard syntax (must be last) */ }
+  /* Standard syntax (must be last) */
+}
 
 .flux-streams-app {
+  white-space: nowrap;
+  padding: 25px;
   height: 100%;
-  width: 100%;
-  left: 0;
-  top: 0;
-  overflow: hidden;
-  position: fixed; }
+  min-width: 100%;
+  width:auto;
+  display: block;
+  position: absolute;
+}
+
+.together {
+  vertical-align: top;
+  width: 300px;
+  min-height: 100%;
+  display: inline-block;
+  margin: 0em;
+  padding: 1em;
+  height: auto;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
+  height: 100%;
+  margin-right: 20px;
+}
 
 .multi_post {
   height: 60%;
-  overflow: auto; }
+  overflow: auto;
+}
 
 .multi_keyword {
-  height: 30%;
-  overflow: overlay; }
+  height: 40%;
+  overflow: auto;
+}
 
 .input {
-  width: 30%; }
+  width: 30%;
+}
 
 .close {
-  float: right !important; }
-
-.together {
-  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
-  height: 100%;
-  margin-right: 50px;
-  display: inline;
-  white-space: nowrap; }
+  float: right !important;
+}
 
 #postList {
-  padding: 15px; }
+  padding: 15px;
+}
 
 #keywordList {
-  padding: 15px; }
+  padding: 15px;
+}
 
 .info {
-  background-color: white; }
+  background-color: white;
+  white-space: pre-wrap;      /* CSS3 */   
+  white-space: -moz-pre-wrap; /* Firefox */    
+  white-space: -pre-wrap;     /* Opera <7 */   
+  white-space: -o-pre-wrap;   /* Opera 7 */    
+  word-wrap: break-word; 
+  cursor: text;
+}
 
 label {
-  margin-right: 10px; }
+  margin-right: 10px;
+}
 
 input {
-  width: 150px !important; }
+  width: 150px !important;
+}
 
 .keyword-body {
   background-color: white;
   margin-bottom: 3px;
   text-align: center;
-  width: 70%; }
+  width: 70%;
+  cursor: pointer;
+}
 
 .close_frame {
   display: inline-block !important;
@@ -74,4 +105,5 @@ input {
   border-radius: 90px !important;
   position: relative;
   top: 7px;
-  float: right; }
+  float: right;
+}
