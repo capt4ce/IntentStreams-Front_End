@@ -19,6 +19,11 @@ function getData(post, keyword) {
   })
 }
 
+function removeData(key) {
+  console.log('post:' + JSON.stringify(key))
+  _stream.splice(key, 1)
+}
+
 // Extend Cart Store with EventEmitter to add eventing capabilities
 var ShowStore = _.extend({}, EventEmitter.prototype, {
 
@@ -51,6 +56,10 @@ AppDispatcher.register(function (payload) {
     // Respond to CART_ADD action
     case FluxCartConstants.LOAD_STUFFS:
       getData(action.post, action.keyword);
+      break;
+
+    case FluxCartConstants.DELETE_STUFFS:
+      removeData(action.key);
       break;
 
 

@@ -4,11 +4,18 @@ var FluxCartConstants = require('../Constants/streamsConstants');
 // Define action methods
 var FluxCartActions = {
 
-  loadStuffs: function (post,keyword) {
+  loadStuffs: function (post, keyword) {
     AppDispatcher.handleAction({
       actionType: FluxCartConstants.LOAD_STUFFS,
       post: post,
-      keyword : keyword
+      keyword: keyword
+    })
+  },
+
+  deleteStuffs: function (key) {
+    AppDispatcher.handleAction({
+      actionType: FluxCartConstants.DELETE_STUFFS,
+      key: key,
     })
   },
 
@@ -19,7 +26,7 @@ var FluxCartActions = {
     })
   },
 
-  
+
 
 };
 

@@ -1,9 +1,17 @@
 var React = require('react');
 //var Draggable = require('react-drag-and-drop');
 
-import { Draggable } from 'react-drag-and-drop' ;
+import { Draggable } from 'react-drag-and-drop';
+import Popover from 'react-simple-popover';
 
 var Keyword = React.createClass({
+
+    getInitialState() {
+        return {
+            open: false
+        }
+
+    },
 
     handleStart: function (event, ui) {
         console.log('Event: ', event);
@@ -24,6 +32,14 @@ var Keyword = React.createClass({
         e.stopPropagation()
     },
 
+    handleClose: function (e) {
+        this.setState({ open: false });
+    },
+
+    handleClickPop: function (e) {
+        this.setState({ open: !this.state.open });
+    },
+
     render: function () {
 
         return (
@@ -36,9 +52,17 @@ var Keyword = React.createClass({
                 onClick={this.handleClick}
                 data={this.props.keyword.title}
                 type="keyword">
-                <div className='keyword-body'>
+                <div className='keyword-body' onMouseEnter={this.handleClickPop.bind(this)} onMouseLeave={this.handleClose.bind(this)}>
                     {this.props.keyword.title}
                 </div>
+                <Popover
+                    placement='right'
+                    container={this}
+                    show={this.state.open}
+                    target={this.refs.target}
+                    onHide={this.handleClose.bind(this)} >
+                    <p>This is popover</p>
+                </Popover>
             </Draggable>
         );
     }

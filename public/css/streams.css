@@ -30,7 +30,8 @@
   overflow: auto; }
 
 .multi_keyword {
-  height: 40%; }
+  height: 30%;
+  overflow: overlay; }
 
 .input {
   width: 30%; }
@@ -41,7 +42,9 @@
 .together {
   box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.5);
   height: 100%;
-  margin-right: 50px; }
+  margin-right: 50px;
+  display: inline;
+  white-space: nowrap; }
 
 #postList {
   padding: 15px; }
@@ -62,4 +65,13 @@ input {
   background-color: white;
   margin-bottom: 3px;
   text-align: center;
-  width: 20%; }
+  width: 70%; }
+
+.close_frame {
+  display: inline-block !important;
+  min-width: 5px;
+  padding: 7px 7px !important;
+  border-radius: 90px !important;
+  position: relative;
+  top: 7px;
+  float: right; }

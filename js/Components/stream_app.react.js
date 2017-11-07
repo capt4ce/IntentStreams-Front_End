@@ -6,12 +6,13 @@ var SearchBar = require('./search.react.js');
 var Container = require('./container.react.js');
 var Multi_Post = require('./multi_posts.react.js');
 var Multi_Keyword = require('./multi_keywords.react.js');
-
+import { Button } from 'react-bootstrap';
 var StreamAPI = require('../API/streamsAPI.js');
+var FluxCartActions = require('../Actions/streamsAction');
 
 //var Droppable  = require('react-drag-and-drop');
 
-import { Droppable } from 'react-drag-and-drop' ;
+import { Droppable } from 'react-drag-and-drop';
 
 
 
@@ -91,9 +92,15 @@ var StreamApp = React.createClass({
     return true
   },
 
-  alert : function (data){
-    
-   // alert(JSON.stringify(data.keyword));
+  hideFrame: function (key) {
+    //console.log(e)
+    FluxCartActions.deleteStuffs(key);
+
+  },
+
+  alert: function (data) {
+
+    // alert(JSON.stringify(data.keyword));
     StreamAPI.getDataValue(data.keyword);
 
   },
@@ -152,12 +159,21 @@ var StreamApp = React.createClass({
       //     container.push(streams)
       // }
       // console.log(datas.post)
+      let _this = this;
       var container = (this.state.data).map(function (datas, i) {
+        let closeStream = function (e) {
+          e.stopPropagation();
+          _this.hideFrame(i);
+
+        }
         return (
 
 
           <div class="together col-xs-3">
             {/* {post[i]} */}
+
+            <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
+
             <div className="multi_post">
               <Multi_Post posts={datas.post} key={i} />
             </div>
