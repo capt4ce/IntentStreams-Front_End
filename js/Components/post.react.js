@@ -50,8 +50,8 @@ var Post = React.createClass({
 				<div className='post-body info' onClick={this.hideDetail}>
 					<div><label>Title</label>{this.props.post.name}</div>
 					<div><label>Description</label>{this.props.post.description}</div>
-					<div><label>Latitude</label>{this.props.post.latitude}</div>
-					<div><label>Longitude</label>{this.props.post.longitude}</div>
+					/* <div><label>Latitude</label>{this.props.post.latitude}</div> */
+					/* <div><label>Longitude</label>{this.props.post.longitude}</div> */
 				</div>
 			);
 		// return (
