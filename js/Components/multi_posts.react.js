@@ -9,11 +9,12 @@ var Multi_Post = React.createClass({
   },
 
   render: function () {
-   
+   let _this=this
     var posts = (this.props.posts).map(function (post, i) {
       return (
         <Post
           key={i}
+          streamKey={_this.props.streamKey}
           post={post} />
       );
 

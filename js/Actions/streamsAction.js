@@ -4,11 +4,12 @@ var FluxCartConstants = require('../Constants/streamsConstants');
 // Define action methods
 var FluxCartActions = {
 
-  loadStuffs: function (post, keyword) {
+  loadStuffs: function (post, keyword, query) {
     AppDispatcher.handleAction({
       actionType: FluxCartConstants.LOAD_STUFFS,
       post: post,
-      keyword: keyword
+      keyword: keyword,
+      query: query
     })
   },
 

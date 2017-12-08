@@ -6,12 +6,12 @@ var SearchBar = require('./search.react.js');
 var Container = require('./container.react.js');
 var Multi_Post = require('./multi_posts.react.js');
 var Multi_Keyword = require('./multi_keywords.react.js');
-import { Button } from 'react-bootstrap';
 var StreamAPI = require('../API/streamsAPI.js');
 var FluxCartActions = require('../Actions/streamsAction');
 
 //var Droppable  = require('react-drag-and-drop');
 
+import { Button,Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
 
 
@@ -20,7 +20,8 @@ import { Droppable } from 'react-drag-and-drop';
 function getCartState() {
   return {
     data: ShowStore.getDataInfo(),
-    showPart: false,
+    showModal: false,
+    showSearch: false,
     search_query: ''
   };
 }
@@ -48,13 +49,14 @@ var StreamApp = React.createClass({
   },
 
 
-  showPart: function (e, target) {
+  showSearch: function (e, target) {
 
     e.preventDefault()
 
     this.setState({
       data: this.state.data,
-      showPart: true,
+      showModal: this.state.showModal,
+      showSearch: true,
       search_query: this.state.search_query,
       partX: e.pageX,
       partY: e.pageY
@@ -65,7 +67,8 @@ var StreamApp = React.createClass({
 
     this.setState({
       data: this.state.data,
-      showPart: false,
+      showModal: this.state.showModal,
+      showSearch: false,
       search_query: '',
       partX: 0,
       partY: 0
@@ -77,7 +80,8 @@ var StreamApp = React.createClass({
   typeQuery: function (e) {
     this.setState({
       data: this.state.data,
-      showPart: true,
+      showModal: this.state.showModal,
+      showSearch: true,
       search_query: e.target.value,
       partX: this.state.partX,
       partY: this.state.partY
@@ -86,6 +90,7 @@ var StreamApp = React.createClass({
 
   submitSearch: function (e) {
     e.preventDefault()
+    this.modalShow(e)
     console.log('search query=' + (this.state.search_query))
     // ShowStore.loadDataInfo(this.state.search_query);
     StreamAPI.getDataValue(this.state.search_query);
@@ -98,12 +103,66 @@ var StreamApp = React.createClass({
 
   },
 
-  alert: function (data) {
-
-    // alert(JSON.stringify(data.keyword));
-    StreamAPI.getDataValue(data.keyword);
-
+  modalShow: function(e){
+    this.setState({
+      data: this.state.data,
+      showModal: true,
+      showSearch: this.state.showSearch,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    if (e)
+      e.stopPropagation()
   },
+
+  modalClose: function(e){
+    this.setState({
+      data: this.state.data,
+      showModal: false,
+      showSearch: this.state.showSearch,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    e.stopPropagation()
+  },
+
+  newStream: function (data, e) {
+    alert(JSON.stringify(e))
+    this.modalShow()
+    // alert(JSON.stringify(data.keyword));
+    if (data.keyword){
+      let query = data.keyword.split('~')
+      alert(query)
+      StreamAPI.getDataValue(query[1]);
+    }
+    else if (data.result_tag){
+      let query = data.result_tag.split('~')
+      alert(query)
+      StreamAPI.getDataValue(query[1]);
+    }
+  },
+
+  inStreamDrop: function (data) {
+    this.modalShow()
+    // alert(JSON.stringify(data.keyword));
+    if (data.keyword){
+      let query = data.keyword.split('~')
+      alert(query)
+      StreamAPI.getDataValue(query[1]);
+    }
+    else if (data.result_tag){
+      let query = data.result_tag.split('~')
+      alert(query)
+      StreamAPI.getDataValue(query[1]);
+    }
+  },
+
+  // componentDidMount: function(){
+  //   if (this.state.showSearch)
+  //     this.searchInput.focus();
+  // },
 
 
   // Render our child components, passing state via props
@@ -111,54 +170,29 @@ var StreamApp = React.createClass({
     // console.log(this.state)
 
     var search, stream;
-    if (this.state.showPart)
-      search = <SearchBar query={this.state.search_query} typeQuery={this.typeQuery} submitSearch={this.submitSearch} hidePart={this.hidePart} posX={this.state.partX} posY={this.state.partY} />
+    if (this.state.showSearch){
+      search = <SearchBar query={this.state.search_query} typeQuery={this.typeQuery} submitSearch={this.submitSearch} hidePart={this.hidePart} posX={this.state.partX} posY={this.state.partY} ref={(input) => { this.searchInput = input; }} />
+
+    }
     else
       search = null;
 
-    // if ("data" in this.state && this.state.data.length != 0)
-
-    // var stream = (
-
-    //       <div class="together col-xs-3">
-    //         <Container_Post cposts={this.state.data}/>
-
-    //         <Container_Keyword ckeyword={this.state.data}/>
-    //       </div>
-
-    //   )
-
-    // else
-    //   var stream = null;
 
     // console.log(Multi_Keyword)
     if ("data" in this.state && this.state.data.length != 0) {
+      // var post = (this.state.data).map(function (datas, i) {
+      //   return (
+      //     <Multi_Post posts={datas.post} key={i} />
+      //   )
+      // })
 
-      var post = (this.state.data).map(function (datas, i) {
-        return (
-          <Multi_Post posts={datas.post} key={i} />
-        )
-      })
-
-      var keyword = (this.state.data).map(function (datas, i) {
-        return (
-          <Multi_Keyword keywords={datas.keyword} key={i} />
-        )
-      }
-      )
-
-      //   var container = []
-      //   var keywords = []
-
-      // for (var stream in this.state.data){
-      //   var streams = (
-      //     <div class="together col-xs-3">
-      //     <Multi_Post posts={stream.post} key={1}/>
-      //     {/* <Multi_Keyword keywords={stream.keyword} /> */}
-      //     </div>)
-      //     container.push(streams)
+      // var keyword = (this.state.data).map(function (datas, i) {
+      //   return (
+      //     <Multi_Keyword keywords={datas.keyword} key={i} />
+      //   )
       // }
-      // console.log(datas.post)
+      // )
+
       let _this = this;
       var container = (this.state.data).map(function (datas, i) {
         let closeStream = function (e) {
@@ -167,59 +201,36 @@ var StreamApp = React.createClass({
 
         }
         return (
-
-
           <div class="together">
-            {/* {post[i]} */}
-
+            <Droppable style={{height:"100%"}} types={['keyword','result_tag']} onDrop={_this.inStreamDrop.bind(this)}>
             <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
             <div className="multi_post">
-              <Multi_Post posts={datas.post} key={i} />
+              <Multi_Post posts={datas.post} key={i} streamKey={i}/>
             </div>
             <div className="multi_keyword">
-              <Multi_Keyword keywords={datas.keyword} key={i} />
+              <Multi_Keyword query={datas.query} keywords={datas.keyword} key={i} streamKey={i}/>
             </div>
+            </Droppable>
           </div>
-
-
         )
       }
       )
-      // var container=(
-      //   <div class="together col-xs-3">
-      //   {post}
-      //   {keyword}
-      //   </div>
-      // )
-      // var stream=(<Container_Keyword ckeyword={this.state.data}/>)
     }
-
-
-
     else {
       container = null;
     }
 
-    //     var stream = (this.state.data).map(function (datas, i) {
-    //       console.log(post)
-    //       return (
-    //         <h1>{datas}</h1>
-    //       );
-
-    //     });
-
-    //     if ("data" in this.state && this.state.data.length != 0)
-    //       stream = <Container data={this.state.data}/>
-    //       else
-    //         stream=null
-
     return (
-      <Droppable className="flux-streams-app" onClick={this.showPart} style={{ padding: '25px' }} types={['keyword']} onDrop={this.alert.bind(this)}>
+      <Droppable className="flux-streams-app" onClick={this.showSearch} style={{ padding: '25px' }} types={['keyword','result_tag']} onDrop={this.newStream}>
         {search}
-
-
         {container}
+
+        <Modal show={this.state.showModal} bsSize="small">
+          <Modal.Body>
+            Loading...
+            </Modal.Body>
+          </Modal>
       </Droppable >
     );
   },

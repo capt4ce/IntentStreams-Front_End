@@ -10,12 +10,14 @@ function loadData(data) {
   StreamAPI.getDataValue(data);
 }
 
-function getData(post, keyword) {
+function getData(post, keyword, query) {
   console.log('post:' + JSON.stringify(post))
   console.log('keyword:' + JSON.stringify(keyword))
+  console.log('query:' + JSON.stringify(query))
   _stream.push({
     post: post,
-    keyword: keyword
+    keyword: keyword,
+    query: query
   })
 }
 
@@ -55,7 +57,7 @@ AppDispatcher.register(function (payload) {
   switch (action.actionType) {
     // Respond to CART_ADD action
     case FluxCartConstants.LOAD_STUFFS:
-      getData(action.post, action.keyword);
+      getData(action.post, action.keyword, action.query);
       break;
 
     case FluxCartConstants.DELETE_STUFFS:

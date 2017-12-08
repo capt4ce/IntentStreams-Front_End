@@ -64,7 +64,7 @@ module.exports = {
                 console.log(response)
                 console.log(response.data.success)
                 if (response.data.success == true) {
-                    FluxCartActions.loadStuffs(response.data.data, response.data.suggested_keywords);
+                    FluxCartActions.loadStuffs(response.data.data, response.data.suggested_keywords, response.data.query);
                 }
 
             })

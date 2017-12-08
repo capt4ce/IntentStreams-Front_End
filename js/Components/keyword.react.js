@@ -8,7 +8,7 @@ var Keyword = React.createClass({
 
     getInitialState() {
         return {
-            open: false
+            opePopup: false
         }
 
     },
@@ -33,11 +33,11 @@ var Keyword = React.createClass({
     },
 
     handleClose: function (e) {
-        this.setState({ open: false });
+        this.setState({ opePopup: false });
     },
 
     handleClickPop: function (e) {
-        this.setState({ open: !this.state.open });
+        this.setState({ opePopup: !this.state.opePopup });
     },
 
     render: function () {
@@ -50,7 +50,7 @@ var Keyword = React.createClass({
                 onDrag={this.handleDrag}
                 onStop={this.handleStop}
                 onClick={this.handleClick}
-                data={this.props.keyword.title}
+                data={this.props.streamKey+"~"+this.props.keyword.title}
                 type="keyword">
                 <div className='keyword-body' onMouseEnter={this.handleClickPop.bind(this)} onMouseLeave={this.handleClose.bind(this)}>
                     {this.props.keyword.title}
@@ -58,7 +58,7 @@ var Keyword = React.createClass({
                 <Popover
                     placement='right'
                     container={this}
-                    show={this.state.open}
+                    show={this.state.opePopup}
                     target={this.refs.target}
                     onHide={this.handleClose.bind(this)} >
                     <p>This is popover</p>

@@ -2,6 +2,10 @@
   height: 100%;
 }
 
+.result-tags {
+  display: inline;
+}
+
 .post-body{
   cursor: pointer;
 }

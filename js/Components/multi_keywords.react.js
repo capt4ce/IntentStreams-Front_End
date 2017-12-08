@@ -11,12 +11,13 @@ var Multi_Keyword = React.createClass({
 
   render: function () {
     console.log('aaa')
+    let _this=this
     var keywords = (this.props.keywords).map(function (keyword, i) {
-   
       return (
         <Keyword
           key={i}
-          keyword={keyword} />
+          keyword={keyword} 
+          streamKey={_this.props.streamKey}/>
       );
 
     });
@@ -26,6 +27,7 @@ var Multi_Keyword = React.createClass({
 
     return (
       <div  className='keyword' id='keywordList' onClick={this.handleClick}>
+        {this.props.query + ":"}
         {keywords}
       </div>
     );
