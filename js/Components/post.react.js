@@ -81,6 +81,7 @@ var Post = React.createClass({
 						<Label bsStyle="primary" style={{marginRight:"1px"}}>{val}</Label>
 					</Draggable>)
 					})}
+					<div><a href={this.props.post.link}>{this.props.post.link}</a></div>
 					<div><label>Description</label>{this.props.post.description}</div>
 				</div>
 			);
