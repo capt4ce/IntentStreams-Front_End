@@ -11,7 +11,7 @@ var FluxCartActions = require('../Actions/streamsAction');
 
 //var Droppable  = require('react-drag-and-drop');
 
-import { Button,Modal } from 'react-bootstrap';
+import { Button, Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
 
 
@@ -103,7 +103,7 @@ var StreamApp = React.createClass({
 
   },
 
-  modalShow: function(e){
+  modalShow: function (e) {
     this.setState({
       data: this.state.data,
       showModal: true,
@@ -116,7 +116,7 @@ var StreamApp = React.createClass({
       e.stopPropagation()
   },
 
-  modalClose: function(e){
+  modalClose: function (e) {
     this.setState({
       data: this.state.data,
       showModal: false,
@@ -129,34 +129,39 @@ var StreamApp = React.createClass({
   },
 
   newStream: function (data, e) {
-    alert(JSON.stringify(e))
+    // alert(JSON.stringify(e))
     this.modalShow()
     // alert(JSON.stringify(data.keyword));
-    if (data.keyword){
+    if (data.keyword) {
       let query = data.keyword.split('~')
       alert(query)
       StreamAPI.getDataValue(query[1]);
     }
-    else if (data.result_tag){
+    else if (data.result_tag) {
       let query = data.result_tag.split('~')
       alert(query)
       StreamAPI.getDataValue(query[1]);
     }
   },
 
-  inStreamDrop: function (data) {
-    this.modalShow()
-    // alert(JSON.stringify(data.keyword));
-    if (data.keyword){
-      let query = data.keyword.split('~')
-      alert(query)
-      StreamAPI.getDataValue(query[1]);
-    }
-    else if (data.result_tag){
-      let query = data.result_tag.split('~')
-      alert(query)
-      StreamAPI.getDataValue(query[1]);
-    }
+  inStreamDrop: function (data, a, b, c) {
+    alert(JSON.stringify(data))
+    alert(JSON.stringify(a))
+    alert(JSON.stringify(b))
+    alert(JSON.stringify(c))
+    return false
+    // this.modalShow()
+    // // alert(JSON.stringify(data.keyword));
+    // if (data.keyword) {
+    //   let query = data.keyword.split('~')
+    //   alert(query)
+    //   StreamAPI.getDataValue(query[1]);
+    // }
+    // else if (data.result_tag) {
+    //   let query = data.result_tag.split('~')
+    //   alert(query)
+    //   StreamAPI.getDataValue(query[1]);
+    // }
   },
 
   // componentDidMount: function(){
@@ -170,7 +175,7 @@ var StreamApp = React.createClass({
     // console.log(this.state)
 
     var search, stream;
-    if (this.state.showSearch){
+    if (this.state.showSearch) {
       search = <SearchBar query={this.state.search_query} typeQuery={this.typeQuery} submitSearch={this.submitSearch} hidePart={this.hidePart} posX={this.state.partX} posY={this.state.partY} ref={(input) => { this.searchInput = input; }} />
 
     }
@@ -202,15 +207,15 @@ var StreamApp = React.createClass({
         }
         return (
           <div class="together">
-            <Droppable style={{height:"100%"}} types={['keyword','result_tag']} onDrop={_this.inStreamDrop.bind(this)}>
-            <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
+            <Droppable className="stream_droppable" onClick={_this.showSearch} style={{ height: '100%' }} types={['keyword', 'result_tag']} onDrop={_this.inStreamDrop.bind(_this)}>
+              <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
-            <div className="multi_post">
-              <Multi_Post posts={datas.post} key={i} streamKey={i}/>
-            </div>
-            <div className="multi_keyword">
-              <Multi_Keyword query={datas.query} keywords={datas.keyword} key={i} streamKey={i}/>
-            </div>
+              <div className="multi_post">
+                <Multi_Post posts={datas.post} key={i} streamKey={i} />
+              </div>
+              <div className="multi_keyword">
+                <Multi_Keyword query={datas.query} keywords={datas.keyword} key={i} streamKey={i} />
+              </div>
             </Droppable>
           </div>
         )
@@ -222,7 +227,7 @@ var StreamApp = React.createClass({
     }
 
     return (
-      <Droppable className="flux-streams-app" onClick={this.showSearch} style={{ padding: '25px' }} types={['keyword','result_tag']} onDrop={this.newStream}>
+      <Droppable className="flux-streams-app" onClick={this.showSearch} style={{ padding: '25px' }} types={['keyword', 'result_tag']} onDrop={this.newStream.bind(this)}>
         {search}
         {container}
 
@@ -230,7 +235,7 @@ var StreamApp = React.createClass({
           <Modal.Body>
             Loading...
             </Modal.Body>
-          </Modal>
+        </Modal>
       </Droppable >
     );
   },

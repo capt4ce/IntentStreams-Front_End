@@ -26,6 +26,7 @@ var Keyword = React.createClass({
     handleStop: function (event, ui) {
         console.log('Event: ', event);
         console.log('Position: ', ui.position);
+        event.stopPropagation()
     },
 
     handleClick: function (e) {
@@ -50,7 +51,7 @@ var Keyword = React.createClass({
                 onDrag={this.handleDrag}
                 onStop={this.handleStop}
                 onClick={this.handleClick}
-                data={this.props.streamKey+"~"+this.props.keyword.title}
+                data={this.props.streamKey + "~" + this.props.keyword.title}
                 type="keyword">
                 <div className='keyword-body' onMouseEnter={this.handleClickPop.bind(this)} onMouseLeave={this.handleClose.bind(this)}>
                     {this.props.keyword.title}
