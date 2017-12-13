@@ -111,3 +111,20 @@ input {
   top: 7px;
   float: right;
 }
+
+.bookmark-drop{
+  height: 20%;
+  position: absolute;
+  bottom: 0px;
+  background-color: black;
+  width: 100%;
+  left: 0px;
+  opacity: 0.5;
+  filter: alpha(opacity=50); /* For IE8 and earlier */
+
+  text-align: center;
+  color: white;
+  font-size: large;
+  vertical-align: middle;
+  line-height: 90px;
+}

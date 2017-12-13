@@ -169,7 +169,7 @@ var StreamApp = React.createClass({
   },
 
   drop: function (event) {
-
+    console.log('drop in background')
     event.preventDefault();
     var data;
     try {
@@ -183,10 +183,10 @@ var StreamApp = React.createClass({
     // Do something with the data
     switch (data.type) {
       case 'keyword':
-        alert('background, keyword' + JSON.stringify(data));
+        console.log('background, keyword' + JSON.stringify(data));
         break
       case 'result-tag':
-        alert('background, result-tag' + JSON.stringify(data));
+        console.log('background, result-tag' + JSON.stringify(data));
         break
       case 'default': alert('nothing caught')
     }
@@ -194,7 +194,7 @@ var StreamApp = React.createClass({
   },
 
   dropInStream: function (event, streamIdx) {
-
+    console.log('drop in stream')
     event.preventDefault()
     event.stopPropagation()
     var data;
@@ -211,15 +211,53 @@ var StreamApp = React.createClass({
     else
       switch (data.type) {
         case 'keyword':
-          alert('background, keyword' + JSON.stringify(data));
+          console.log('stream, keyword' + JSON.stringify(data));
           break
         case 'result-tag':
-          alert('background, result-tag' + JSON.stringify(data));
+          console.log('stream, result-tag' + JSON.stringify(data));
           break
         case 'default': alert('nothing caught')
       }
 
   },
+
+  moveCard: function (dragIndex, hoverIndex) {
+    const { cards } = this.state
+    const dragCard = cards[dragIndex]
+
+    this.setState(
+      update(this.state, {
+        cards: {
+          $splice: [[dragIndex, 1], [hoverIndex, 0, dragCard]],
+        },
+      }),
+    )
+  },
+
+  bookmarkDragOver: function (e) {
+
+  },
+
+  bookmarkDrop: function (e) {
+    console.log('drop in bookmark drop')
+    e.preventDefault()
+    e.stopPropagation()
+    var data;
+    try {
+      data = JSON.parse(e.dataTransfer.getData('text'));
+    } catch (e) {
+      // If the text data isn't parsable we'll just ignore it.
+      return;
+    }
+
+    switch (data.type) {
+      case 'keyword':
+        console.log('bookmark, post-body' + JSON.stringify(data));
+        break
+      case 'default': alert('nothing caught')
+    }
+  },
+
 
   // componentDidMount: function(){
   //   if (this.state.showSearch)
@@ -293,6 +331,8 @@ var StreamApp = React.createClass({
       <div className="flux-streams-app" onClick={this.showSearch} onDragOver={this.preventDefault} onDrop={this.drop}>
         {search}
         {container}
+
+        <div className="bookmark-drop" onDragOver={this.preventDefault} onDrop={this.bookmarkDrop}>Drop Here To Bookmark</div>
 
         <Modal show={this.state.showModal} bsSize="small">
           <Modal.Body>

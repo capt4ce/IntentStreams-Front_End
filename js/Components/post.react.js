@@ -41,11 +41,24 @@ var Post = React.createClass({
 		// }
 	},
 
+	postDrag: function (e) {
+		e.stopPropagation()
+		var data = {
+			type: 'post-body',
+			streamOrigin: this.props.streamKey,
+			content: {
+				name: this.props.post.name,
+				link: this.props.post.link
+			}
+		};
+		e.dataTransfer.setData('text', JSON.stringify(data));
+	},
+
 	render: function () {
 		let _this = this
 		if (!this.state.showDetail)
 			return (
-				<div className='post-body' style={{ marginBottom: "10px" }} onClick={this.showDetail}>
+				<div draggable='true' onDragStart={this.postDrag} className='post-body' style={{ marginBottom: "10px" }} onClick={this.showDetail}>
 					{this.props.post.name}<br />
 					{(this.props.post.tags).map(function (val) {
 						let dragStart = function (e) {
@@ -70,18 +83,20 @@ var Post = React.createClass({
 				<div className='post-body info' onClick={this.hideDetail}>
 					<div><label>Title</label>{this.props.post.name}</div>
 					{(this.props.post.tags).map(function (val) {
-						return (<Draggable
-							className="result-tags"
-							defaultPosition={{ x: 0, y: 0 }}
-							position={null}
-							onStart={null}
-							onDrag={null}
-							onStop={null}
-							onClick={null}
-							data={[_this.props.streamKey, val]}
-							type="result_tag">
-							<Label bsStyle="primary" style={{ marginRight: "1px" }}>{val}</Label>
-						</Draggable>)
+						let dragStart = function (e) {
+							e.stopPropagation()
+							var data = {
+								type: 'result-tag',
+								streamOrigin: _this.props.streamKey,
+								content: val
+							};
+							e.dataTransfer.setData('text', JSON.stringify(data));
+
+						}
+						return (
+							<div draggable='true' onDragStart={dragStart} className="result-tags">
+								<Label bsStyle="primary" style={{ marginRight: "1px" }}>{val}</Label>
+							</div>)
 					})}
 					<div><a href={this.props.post.link}>{this.props.post.link}</a></div>
 					<div><label>Description</label>{this.props.post.description}</div>
