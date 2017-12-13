@@ -8,63 +8,49 @@ var Keyword = React.createClass({
 
     getInitialState() {
         return {
-            opePopup: false
+            openPopup: false
         }
 
-    },
-
-    handleStart: function (event, ui) {
-        console.log('Event: ', event);
-        console.log('Position: ', ui.position);
-    },
-
-    handleDrag: function (event, ui) {
-        console.log('Event: ', event);
-        console.log('Position: ', ui.position);
-    },
-
-    handleStop: function (event, ui) {
-        console.log('Event: ', event);
-        console.log('Position: ', ui.position);
-        event.stopPropagation()
     },
 
     handleClick: function (e) {
         e.stopPropagation()
     },
 
-    handleClose: function (e) {
-        this.setState({ opePopup: false });
+    handleClosePop: function (e) {
+        this.setState({ openPopup: false });
     },
 
-    handleClickPop: function (e) {
-        this.setState({ opePopup: !this.state.opePopup });
+    handleOpenPop: function (e) {
+        this.setState({ openPopup: !this.state.openPopup });
+    },
+
+    dragStart: function (event) {
+        event.stopPropagation()
+        var data = {
+            type: 'keyword',
+            streamOrigin: this.props.streamKey,
+            content: this.props.keyword.title
+        };
+        event.dataTransfer.setData('text', JSON.stringify(data));
+
     },
 
     render: function () {
-
         return (
-            <Draggable
-                defaultPosition={{ x: 0, y: 0 }}
-                position={null}
-                onStart={this.handleStart}
-                onDrag={this.handleDrag}
-                onStop={this.handleStop}
-                onClick={this.handleClick}
-                data={this.props.streamKey + "~" + this.props.keyword.title}
-                type="keyword">
-                <div className='keyword-body' onMouseEnter={this.handleClickPop.bind(this)} onMouseLeave={this.handleClose.bind(this)}>
+            <div draggable='true' onDragStart={this.dragStart}>
+                <div className='keyword-body' onMouseEnter={this.handleOpenPop.bind(this)} onMouseLeave={this.handleClosePop.bind(this)}>
                     {this.props.keyword.title}
                 </div>
                 <Popover
                     placement='right'
                     container={this}
-                    show={this.state.opePopup}
+                    show={this.state.openPopup}
                     target={this.refs.target}
-                    onHide={this.handleClose.bind(this)} >
-                    <p>This is popover</p>
+                    onHide={this.handleClosePop.bind(this)} >
+                    <p>Loading...</p>
                 </Popover>
-            </Draggable>
+            </div>
         );
     }
 

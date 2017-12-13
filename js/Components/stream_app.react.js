@@ -164,6 +164,63 @@ var StreamApp = React.createClass({
     // }
   },
 
+  preventDefault: function (event) {
+    event.preventDefault();
+  },
+
+  drop: function (event) {
+
+    event.preventDefault();
+    var data;
+    try {
+      data = JSON.parse(event.dataTransfer.getData('text'));
+    } catch (e) {
+      // If the text data isn't parsable we'll just ignore it.
+      return;
+    }
+
+    console.log(event)
+    // Do something with the data
+    switch (data.type) {
+      case 'keyword':
+        alert('background, keyword' + JSON.stringify(data));
+        break
+      case 'result-tag':
+        alert('background, result-tag' + JSON.stringify(data));
+        break
+      case 'default': alert('nothing caught')
+    }
+
+  },
+
+  dropInStream: function (event, streamIdx) {
+
+    event.preventDefault()
+    event.stopPropagation()
+    var data;
+    try {
+      data = JSON.parse(event.dataTransfer.getData('text'));
+    } catch (e) {
+      // If the text data isn't parsable we'll just ignore it.
+      return;
+    }
+
+    console.log(event)
+    if (streamIdx == data.streamOrigin)
+      alert('same stream')
+    else
+      switch (data.type) {
+        case 'keyword':
+          alert('background, keyword' + JSON.stringify(data));
+          break
+        case 'result-tag':
+          alert('background, result-tag' + JSON.stringify(data));
+          break
+        case 'default': alert('nothing caught')
+      }
+
+  },
+
   // componentDidMount: function(){
   //   if (this.state.showSearch)
   //     this.searchInput.focus();
@@ -205,9 +262,15 @@ var StreamApp = React.createClass({
           _this.hideFrame(i);
 
         }
+
+        let streamDrop = function (e) {
+          e.stopPropagation()
+          _this.dropInStream(e, i)
+        }
+
         return (
           <div class="together">
-            <Droppable className="stream_droppable" onClick={_this.showSearch} style={{ height: '100%' }} types={['keyword', 'result_tag']} onDrop={_this.inStreamDrop.bind(_this)}>
+            <div className="stream_droppable" style={{ height: '100%' }} onDragOver={_this.preventDefault} onDrop={streamDrop}>
               <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
               <div className="multi_post">
@@ -216,7 +279,7 @@ var StreamApp = React.createClass({
               <div className="multi_keyword">
                 <Multi_Keyword query={datas.query} keywords={datas.keyword} key={i} streamKey={i} />
               </div>
-            </Droppable>
+            </div>
           </div>
         )
       }
@@ -227,7 +290,7 @@ var StreamApp = React.createClass({
     }
 
     return (
-      <Droppable className="flux-streams-app" onClick={this.showSearch} style={{ padding: '25px' }} types={['keyword', 'result_tag']} onDrop={this.newStream.bind(this)}>
+      <div className="flux-streams-app" onClick={this.showSearch} onDragOver={this.preventDefault} onDrop={this.drop}>
         {search}
         {container}
 
@@ -236,7 +299,7 @@ var StreamApp = React.createClass({
             Loading...
             </Modal.Body>
         </Modal>
-      </Droppable >
+      </div >
     );
   },
 
