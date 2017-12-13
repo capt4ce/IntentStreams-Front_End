@@ -258,6 +258,44 @@ var StreamApp = React.createClass({
     }
   },
 
+  streamDragStart: function (e) {
+    // e.stopPropagation()
+    // var data = {
+    //   type: 'stream'
+    // };
+    // e.dataTransfer.setData('text', JSON.stringify(data));
+    this.dragged = e.currentTarget;
+    e.dataTransfer.effectAllowed = 'move';
+
+    // Firefox requires calling dataTransfer.setData
+    // for the drag to properly work
+    e.dataTransfer.setData("text/html", e.currentTarget);
+  },
+
+  streamDragEnd: function (e) {
+    // e.stopPropagation()
+    // var data = {
+    //   type: 'stream'
+    // };
+    // e.dataTransfer.setData('text', JSON.stringify(data));
+    this.dragged.style.display = "block";
+    this.dragged.parentNode.removeChild(placeholder);
+
+    // Update state
+    var data = this.state.data;
+    var from = Number(this.dragged.dataset.id);
+    var to = Number(this.over.dataset.id);
+    if (from < to) to--;
+    data.splice(to, 0, data.splice(from, 1)[0]);
+    this.setState({ data: data });
+  },
+  dragOver: function (e) {
+    e.preventDefault();
+    this.dragged.style.display = "none";
+    if (e.target.className == "placeholder") return;
+    this.over = e.target;
+    e.target.parentNode.insertBefore(placeholder, e.target);
+  },
 
   // componentDidMount: function(){
   //   if (this.state.showSearch)
@@ -307,7 +345,7 @@ var StreamApp = React.createClass({
         }
 
         return (
-          <div class="together">
+          <div class="together" onClick={e => e.stopPropagation()} draggable='true' onDragStart={_this.streamDragStart} onDragEnd={this.dragStreamEnd}>
             <div className="stream_droppable" style={{ height: '100%' }} onDragOver={_this.preventDefault} onDrop={streamDrop}>
               <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 

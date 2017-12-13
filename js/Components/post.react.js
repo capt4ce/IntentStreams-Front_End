@@ -80,7 +80,7 @@ var Post = React.createClass({
 			);
 		else
 			return (
-				<div className='post-body info' onClick={this.hideDetail}>
+				<div draggable='true' onDragStart={this.postDrag} className='post-body info' onClick={this.hideDetail}>
 					<div><label>Title</label>{this.props.post.name}</div>
 					{(this.props.post.tags).map(function (val) {
 						let dragStart = function (e) {
