@@ -5,6 +5,7 @@ var StreamAPI = require('../API/streamsAPI.js');
 var _ = require('underscore');
 
 var _stream = [];
+var _hints = [];
 
 function loadData(data) {
   StreamAPI.getDataValue(data);
@@ -19,6 +20,10 @@ function getData(post, keyword, query) {
     keyword: keyword,
     query: query
   })
+}
+
+function loadHints(hintTitles){
+  _hints=hintTitles
 }
 
 function removeData(key) {
@@ -43,6 +48,9 @@ var ShowStore = _.extend({}, EventEmitter.prototype, {
   },
   getDataInfo: function () {
     return _stream;
+  },
+  getHintInfo: function(){
+    return _hints;
   },
   // Emit Change event
   emitChange: function () {
@@ -74,6 +82,10 @@ AppDispatcher.register(function (payload) {
 
     case FluxCartConstants.REFRESH_RESULT:
       refreshResult(action.streamIdx, action.post, action.keyword, action.query)
+      break
+
+    case FluxCartConstants.LOAD_HINT:
+      loadHints(action.hintTitles)  
       break
 
 

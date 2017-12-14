@@ -3,6 +3,8 @@ var React = require('react');
 
 import { Draggable } from 'react-drag-and-drop';
 import Popover from 'react-simple-popover';
+import ReactHoverObserver from 'react-hover-observer';
+var StreamAPI = require('../API/streamsAPI.js');
 
 var Keyword = React.createClass({
 
@@ -17,14 +19,6 @@ var Keyword = React.createClass({
         e.stopPropagation()
     },
 
-    handleClosePop: function (e) {
-        this.setState({ openPopup: false });
-    },
-
-    handleOpenPop: function (e) {
-        this.setState({ openPopup: !this.state.openPopup });
-    },
-
     dragStart: function (event) {
         event.stopPropagation()
         var data = {
@@ -37,23 +31,29 @@ var Keyword = React.createClass({
     },
 
     render: function () {
+        let _this=this
+        const Detector = ({ isHovering = false }) => (
+            <div style={{display:"none"}}>
+              {isHovering ? ()=>{console.log('hovering'); StreamAPI.loadHints()} : console.log('not hovering')}
+             </div>
+          );
         return (
-            <div draggable='true' onDragStart={this.dragStart}>
-                <div className='keyword-body' onMouseEnter={this.handleOpenPop.bind(this)} onMouseLeave={this.handleClosePop.bind(this)}>
-                    {this.props.keyword.title}
+            <ReactHoverObserver
+                className="example__observer"
+                hoverDelayInMs={500}
+                hoverOffDelayInMs={200}
+            >
+                <div draggable='true' onDragStart={this.dragStart}>
+                    <div className='keyword-body' onMouseEnter={this.props.handleOpenPop} onMouseEnter={this.props.Leave}>
+                        {this.props.keyword.title}
+                    </div>
                 </div>
-                <Popover
-                    placement='right'
-                    container={this}
-                    show={this.state.openPopup}
-                    target={this.refs.target}
-                    onHide={this.handleClosePop.bind(this)} >
-                    <p>Loading...</p>
-                </Popover>
-            </div>
+                <Detector />
+            </ReactHoverObserver>
         );
     }
 
 });
 
 module.exports = Keyword;
+// onMouseEnter={this.handleOpenPop.bind(this)} onMouseLeave={this.handleClosePop.bind(this)}

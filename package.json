@@ -19,6 +19,7 @@
     "react-dom": "^15.3.0",
     "react-drag-and-drop": "^2.4.0",
     "react-draggable": "^3.0.2",
+    "react-hover-observer": "^2.0.2",
     "react-router": "^3.0.2",
     "react-simple-popover": "^0.2.0",
     "react-tap-event-plugin": "^2.0.1",

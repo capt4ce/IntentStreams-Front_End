@@ -17,7 +17,10 @@ var Multi_Keyword = React.createClass({
         <Keyword
           key={i}
           keyword={keyword} 
-          streamKey={_this.props.streamKey}/>
+          streamKey={_this.props.streamKey}
+          handleClosePop={_this.props.handleClosePop} 
+          handleOpenPop={_this.props.handleOpenPop}
+          />
       );
 
     });

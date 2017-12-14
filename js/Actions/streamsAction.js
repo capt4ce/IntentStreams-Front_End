@@ -37,6 +37,13 @@ var FluxCartActions = {
     })
   },
 
+  hintLoad: function(hintTitles){
+    AppDispatcher.handleAction({
+      actionType: FluxCartConstants.LOAD_HINT,
+      hintTitles: hintTitles
+    })
+  }
+
 
 
 };

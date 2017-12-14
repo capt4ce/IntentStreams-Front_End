@@ -14,6 +14,7 @@ var FluxCartActions = require('../Actions/streamsAction');
 import { Button, Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
 import Cookie from 'react-cookies';
+import Popover from 'react-simple-popover';
 
 
 
@@ -25,6 +26,8 @@ function getCartState() {
     showBookmarks: false,
     showSearch: false,
     showBookmarkDrop: false,
+    openPopup: false,
+    popupHints: ShowStore.getHintInfo(),
     search_query: ''
   };
 }
@@ -62,6 +65,7 @@ var StreamApp = React.createClass({
       showBookmarks: this.state.showBookmarks,
       showSearch: true,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: e.pageX,
       partY: e.pageY
@@ -76,6 +80,7 @@ var StreamApp = React.createClass({
       showBookmarks: this.state.showBookmarks,
       showSearch: false,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: '',
       partX: 0,
       partY: 0
@@ -91,6 +96,7 @@ var StreamApp = React.createClass({
       showBookmarks: this.state.showBookmarks,
       showSearch: true,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: e.target.value,
       partX: this.state.partX,
       partY: this.state.partY
@@ -119,6 +125,7 @@ var StreamApp = React.createClass({
       showBookmarks: this.state.showBookmarks,
       showSearch: this.state.showSearch,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -134,6 +141,7 @@ var StreamApp = React.createClass({
       showBookmarks: this.state.showBookmarks,
       showSearch: this.state.showSearch,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -148,6 +156,7 @@ var StreamApp = React.createClass({
       showBookmarks: true,
       showSearch: this.state.showSearch,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -162,6 +171,7 @@ var StreamApp = React.createClass({
       showBookmarks: false,
       showSearch: this.state.showSearch,
       showBookmarkDrop: this.state.showBookmarkDrop,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -183,26 +193,6 @@ var StreamApp = React.createClass({
       alert(query)
       StreamAPI.getDataValue(query[1]);
     }
-  },
-
-  inStreamDrop: function (data, a, b, c) {
-    alert(JSON.stringify(data))
-    alert(JSON.stringify(a))
-    alert(JSON.stringify(b))
-    alert(JSON.stringify(c))
-    return false
-    // this.modalShow()
-    // // alert(JSON.stringify(data.keyword));
-    // if (data.keyword) {
-    //   let query = data.keyword.split('~')
-    //   alert(query)
-    //   StreamAPI.getDataValue(query[1]);
-    // }
-    // else if (data.result_tag) {
-    //   let query = data.result_tag.split('~')
-    //   alert(query)
-    //   StreamAPI.getDataValue(query[1]);
-    // }
   },
 
   preventDefault: function (event) {
@@ -322,6 +312,7 @@ var StreamApp = React.createClass({
       showBookmarks: false,
       showSearch: this.state.showSearch,
       showBookmarkDrop: true,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -336,11 +327,42 @@ var StreamApp = React.createClass({
       showBookmarks: false,
       showSearch: this.state.showSearch,
       showBookmarkDrop: false,
+      openPopup: false,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
     });
     e.stopPropagation()
+  },
+
+  handleClosePop: function (e) {
+    e.stopPropagation()
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: false,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: false,
+      openPopup: false,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+  },
+
+  handleOpenPop: function (e) {
+    e.stopPropagation()
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: false,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: false,
+      openPopup: true,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
   },
 
   streamDragStart: function (e) {
@@ -434,7 +456,7 @@ var StreamApp = React.createClass({
             <div className="stream_droppable" style={{ height: '100%' }} onDragOver={_this.preventDefault} onDrop={streamDrop}>
               <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
-              <div className="multi_post">
+              <div className="multi_post" handleClosePop={this.handleClosePop} handleOpenPop={this.handleOpenPop}>
                 <Multi_Post posts={datas.post} key={i} streamKey={i} showBookmarkDrop={_this.showBookmarkDrop} hideBookmarkDrop={_this.hideBookmarkDrop} />
               </div>
               <div className="multi_keyword">
@@ -461,6 +483,15 @@ var StreamApp = React.createClass({
     else
       var newBookmarks = null
 
+    let Hints = () =>{
+      <ul style={{listStyle: "none"}}>
+        {(this.state.popupHints).map(function (val, i) {
+        return (
+          <li>{val}</li>
+        )
+      })}
+      </ul>
+    }
 
     return (
       <div className="flux-streams-app" onClick={this.showSearch} onDragOver={this.preventDefault} onDrop={this.drop}>
@@ -485,10 +516,20 @@ var StreamApp = React.createClass({
               {newBookmarks}
             </ul>
           </Modal.Body>
+
           <Modal.Footer>
             <Button onClick={this.closeBookmarksModal}>Close</Button>
           </Modal.Footer>
         </Modal>
+
+        <Popover
+          placement='right'
+          container={this}
+          show={this.state.openPopup}
+          target={this.refs.target}
+          onHide={this.handleClosePop} >
+          {this.state.popupHints.length==0?<p>Loading...</p>:<Hints />}
+        </Popover>
       </div >
     );
   },

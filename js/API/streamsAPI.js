@@ -111,6 +111,7 @@ module.exports = {
 
 
     },
+
     refreshResult: function (streamIdx, query) {
         console.log(query)
         axios.get('http://localhost:5000/search', {
@@ -131,5 +132,29 @@ module.exports = {
                 console.log(error);
             });
     },
+
+    loadHints: function(query){
+        axios.get('http://localhost:5000/search', {
+            params: {
+                query: query
+            }
+        })
+            .then(function (response) {
+                console.log(response)
+                console.log(response.data.success)
+                if (response.data.success == true) {
+                    let hintTitles=[]
+                    for (var i=0; i<5; i++)
+                        hintTitles.push(response.data.data[i].name)
+                    console.log('hint titles: '+ hintTitles)
+                    FluxCartActions.hintLoad(hintTitles);
+                }
+
+            })
+
+            .catch(function (error) {
+                console.log(error);
+            });
+    }
 
 }    
