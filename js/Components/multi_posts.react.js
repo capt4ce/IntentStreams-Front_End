@@ -9,17 +9,19 @@ var Multi_Post = React.createClass({
   },
 
   render: function () {
-   let _this=this
+    let _this = this
     var posts = (this.props.posts).map(function (post, i) {
       return (
         <Post
           key={i}
           streamKey={_this.props.streamKey}
-          post={post} />
+          post={post}
+          showBookmarkDrop={_this.props.showBookmarkDrop}
+          hideBookmarkDrop={_this.props.hideBookmarkDrop} />
       );
 
     });
-  
+
 
     if (this.props.posts.length == 0)
       return null;

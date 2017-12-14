@@ -26,6 +26,14 @@ function removeData(key) {
   _stream.splice(key, 1)
 }
 
+function refreshResult(streamIdx, post, keyword, query) {
+  _stream[streamIdx] = {
+    post: post,
+    keyword: keyword,
+    query: query
+  }
+}
+
 // Extend Cart Store with EventEmitter to add eventing capabilities
 var ShowStore = _.extend({}, EventEmitter.prototype, {
 
@@ -63,6 +71,10 @@ AppDispatcher.register(function (payload) {
     case FluxCartConstants.DELETE_STUFFS:
       removeData(action.key);
       break;
+
+    case FluxCartConstants.REFRESH_RESULT:
+      refreshResult(action.streamIdx, action.post, action.keyword, action.query)
+      break
 
 
 

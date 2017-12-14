@@ -111,5 +111,25 @@ module.exports = {
 
 
     },
+    refreshResult: function (streamIdx, query) {
+        console.log(query)
+        axios.get('http://localhost:5000/search', {
+            params: {
+                query: query
+            }
+        })
+            .then(function (response) {
+                console.log(response)
+                console.log(response.data.success)
+                if (response.data.success == true) {
+                    FluxCartActions.refreshResult(streamIdx, response.data.data, response.data.suggested_keywords, response.data.query);
+                }
+
+            })
+
+            .catch(function (error) {
+                console.log(error);
+            });
+    },
 
 }    

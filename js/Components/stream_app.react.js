@@ -13,6 +13,7 @@ var FluxCartActions = require('../Actions/streamsAction');
 
 import { Button, Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
+import Cookie from 'react-cookies';
 
 
 
@@ -21,7 +22,9 @@ function getCartState() {
   return {
     data: ShowStore.getDataInfo(),
     showModal: false,
+    showBookmarks: false,
     showSearch: false,
+    showBookmarkDrop: false,
     search_query: ''
   };
 }
@@ -56,7 +59,9 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showModal: this.state.showModal,
+      showBookmarks: this.state.showBookmarks,
       showSearch: true,
+      showBookmarkDrop: this.state.showBookmarkDrop,
       search_query: this.state.search_query,
       partX: e.pageX,
       partY: e.pageY
@@ -68,7 +73,9 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showModal: this.state.showModal,
+      showBookmarks: this.state.showBookmarks,
       showSearch: false,
+      showBookmarkDrop: this.state.showBookmarkDrop,
       search_query: '',
       partX: 0,
       partY: 0
@@ -81,7 +88,9 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showModal: this.state.showModal,
+      showBookmarks: this.state.showBookmarks,
       showSearch: true,
+      showBookmarkDrop: this.state.showBookmarkDrop,
       search_query: e.target.value,
       partX: this.state.partX,
       partY: this.state.partY
@@ -107,7 +116,9 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showModal: true,
+      showBookmarks: this.state.showBookmarks,
       showSearch: this.state.showSearch,
+      showBookmarkDrop: this.state.showBookmarkDrop,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -120,7 +131,37 @@ var StreamApp = React.createClass({
     this.setState({
       data: this.state.data,
       showModal: false,
+      showBookmarks: this.state.showBookmarks,
       showSearch: this.state.showSearch,
+      showBookmarkDrop: this.state.showBookmarkDrop,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    e.stopPropagation()
+  },
+
+  openBookmarksModal: function (e) {
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: true,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: this.state.showBookmarkDrop,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    e.stopPropagation()
+  },
+
+  closeBookmarksModal: function (e) {
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: false,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: this.state.showBookmarkDrop,
       search_query: this.state.search_query,
       partX: this.state.partX,
       partY: this.state.partY
@@ -184,9 +225,13 @@ var StreamApp = React.createClass({
     switch (data.type) {
       case 'keyword':
         console.log('background, keyword' + JSON.stringify(data));
+        this.modalShow()
+        StreamAPI.getDataValue(this.state.data[data.streamOrigin].query + ' ' + data.content);
         break
       case 'result-tag':
         console.log('background, result-tag' + JSON.stringify(data));
+        this.modalShow()
+        StreamAPI.getDataValue(data.content);
         break
       case 'default': alert('nothing caught')
     }
@@ -212,9 +257,13 @@ var StreamApp = React.createClass({
       switch (data.type) {
         case 'keyword':
           console.log('stream, keyword' + JSON.stringify(data));
+          this.modalShow()
+          StreamAPI.refreshResult(streamIdx, this.state.data[streamIdx].query + ' ' + data.content)
           break
         case 'result-tag':
           console.log('stream, result-tag' + JSON.stringify(data));
+          this.modalShow()
+          StreamAPI.refreshResult(streamIdx, this.state.data[streamIdx].query + ' ' + data.content)
           break
         case 'default': alert('nothing caught')
       }
@@ -251,11 +300,47 @@ var StreamApp = React.createClass({
     }
 
     switch (data.type) {
-      case 'keyword':
+      case 'post-body':
         console.log('bookmark, post-body' + JSON.stringify(data));
+        var presentCookie = Cookie.load('bookmark')
+        if (presentCookie) {
+          // presentCookie = JSON.parse(presentCookie)
+          presentCookie.push(data.content)
+          Cookie.save('bookmark', presentCookie)
+        }
+        else
+          Cookie.save('bookmark', [data.content])
         break
       case 'default': alert('nothing caught')
     }
+  },
+
+  showBookmarkDrop: function (e) {
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: false,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: true,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    e.stopPropagation()
+  },
+
+  hideBookmarkDrop: function (e) {
+    this.setState({
+      data: this.state.data,
+      showModal: this.state.showModal,
+      showBookmarks: false,
+      showSearch: this.state.showSearch,
+      showBookmarkDrop: false,
+      search_query: this.state.search_query,
+      partX: this.state.partX,
+      partY: this.state.partY
+    });
+    e.stopPropagation()
   },
 
   streamDragStart: function (e) {
@@ -345,12 +430,12 @@ var StreamApp = React.createClass({
         }
 
         return (
-          <div class="together" onClick={e => e.stopPropagation()} draggable='true' onDragStart={_this.streamDragStart} onDragEnd={this.dragStreamEnd}>
+          <div class="together" onClick={e => e.stopPropagation()}>
             <div className="stream_droppable" style={{ height: '100%' }} onDragOver={_this.preventDefault} onDrop={streamDrop}>
               <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
               <div className="multi_post">
-                <Multi_Post posts={datas.post} key={i} streamKey={i} />
+                <Multi_Post posts={datas.post} key={i} streamKey={i} showBookmarkDrop={_this.showBookmarkDrop} hideBookmarkDrop={_this.hideBookmarkDrop} />
               </div>
               <div className="multi_keyword">
                 <Multi_Keyword query={datas.query} keywords={datas.keyword} key={i} streamKey={i} />
@@ -365,17 +450,44 @@ var StreamApp = React.createClass({
       container = null;
     }
 
+    var bookmarks = Cookie.load('bookmark')
+    console.log(bookmarks)
+    if (bookmarks) {
+      // bookmarks = JSON.parse(bookmarks)
+      var newBookmarks = bookmarks.map(val => {
+        return (<li><a href={val.link}>{val.name}</a></li>)
+      })
+    }
+    else
+      var newBookmarks = null
+
+
     return (
       <div className="flux-streams-app" onClick={this.showSearch} onDragOver={this.preventDefault} onDrop={this.drop}>
+        <button className="btn btn-warning" onClick={this.openBookmarksModal}>Bookmarks</button>
         {search}
         {container}
 
-        <div className="bookmark-drop" onDragOver={this.preventDefault} onDrop={this.bookmarkDrop}>Drop Here To Bookmark</div>
+        <div className="bookmark-drop" onDragOver={this.preventDefault} onDrop={this.bookmarkDrop} style={{ display: this.state.showBookmarkDrop ? 'block' : 'none' }}>Drop Here To Bookmark</div>
 
         <Modal show={this.state.showModal} bsSize="small">
           <Modal.Body>
             Loading...
             </Modal.Body>
+        </Modal>
+
+        <Modal show={this.state.showBookmarks} onHide={this.closeBookmarksModal}>
+          <Modal.Header closeButton>
+            <Modal.Title>Modal heading</Modal.Title>
+          </Modal.Header>
+          <Modal.Body>
+            <ul>
+              {newBookmarks}
+            </ul>
+          </Modal.Body>
+          <Modal.Footer>
+            <Button onClick={this.closeBookmarksModal}>Close</Button>
+          </Modal.Footer>
         </Modal>
       </div >
     );

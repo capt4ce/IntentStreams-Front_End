@@ -27,6 +27,16 @@ var FluxCartActions = {
     })
   },
 
+  refreshResult: function (streamIdx, post, keyword, query) {
+    AppDispatcher.handleAction({
+      actionType: FluxCartConstants.REFRESH_RESULT,
+      streamIdx: streamIdx,
+      post: post,
+      keyword: keyword,
+      query: query
+    })
+  },
+
 
 
 };

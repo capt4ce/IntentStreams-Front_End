@@ -51,6 +51,7 @@ var Post = React.createClass({
 				link: this.props.post.link
 			}
 		};
+		this.props.showBookmarkDrop(e)
 		e.dataTransfer.setData('text', JSON.stringify(data));
 	},
 
@@ -58,7 +59,7 @@ var Post = React.createClass({
 		let _this = this
 		if (!this.state.showDetail)
 			return (
-				<div draggable='true' onDragStart={this.postDrag} className='post-body' style={{ marginBottom: "10px" }} onClick={this.showDetail}>
+				<div draggable='true' onDragStart={this.postDrag} onDragEnd={e => { e.stopPropagation; this.props.hideBookmarkDrop(e) }} className='post-body' style={{ marginBottom: "10px" }} onClick={this.showDetail}>
 					{this.props.post.name}<br />
 					{(this.props.post.tags).map(function (val) {
 						let dragStart = function (e) {
