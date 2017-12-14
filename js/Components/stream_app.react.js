@@ -252,7 +252,7 @@ var StreamApp = React.createClass({
 
     console.log(event)
     if (streamIdx == data.streamOrigin)
-      alert('same stream')
+      console.log('same stream')
     else
       switch (data.type) {
         case 'keyword':
