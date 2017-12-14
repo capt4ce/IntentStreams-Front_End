@@ -32,9 +32,12 @@ var Keyword = React.createClass({
 
     render: function () {
         let _this=this
+        let hoverFunct = ()=>{
+            console.log('hovering'); StreamAPI.loadHints()
+        }
         const Detector = ({ isHovering = false }) => (
             <div style={{display:"none"}}>
-              {isHovering ? ()=>{console.log('hovering'); StreamAPI.loadHints()} : console.log('not hovering')}
+              {isHovering ? hoverFunct() : console.log('not hovering')}
              </div>
           );
         return (

@@ -336,6 +336,7 @@ var StreamApp = React.createClass({
   },
 
   handleClosePop: function (e) {
+    console('closing pop')
     e.stopPropagation()
     this.setState({
       data: this.state.data,
@@ -351,6 +352,7 @@ var StreamApp = React.createClass({
   },
 
   handleOpenPop: function (e) {
+    console('opening pop')
     e.stopPropagation()
     this.setState({
       data: this.state.data,
@@ -456,7 +458,7 @@ var StreamApp = React.createClass({
             <div className="stream_droppable" style={{ height: '100%' }} onDragOver={_this.preventDefault} onDrop={streamDrop}>
               <Button bsStyle="danger" className="close_frame btn-circle" onClick={closeStream}></Button>
 
-              <div className="multi_post" handleClosePop={this.handleClosePop} handleOpenPop={this.handleOpenPop}>
+              <div className="multi_post" handleClosePop={_this.handleClosePop} handleOpenPop={_this.handleOpenPop}>
                 <Multi_Post posts={datas.post} key={i} streamKey={i} showBookmarkDrop={_this.showBookmarkDrop} hideBookmarkDrop={_this.hideBookmarkDrop} />
               </div>
               <div className="multi_keyword">
