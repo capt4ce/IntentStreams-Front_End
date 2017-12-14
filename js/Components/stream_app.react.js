@@ -1,7 +1,5 @@
 var React = require('react');
 var ShowStore = require('../Stores/streamsStores');
-// var Container_Post = require('./container_posts.react.js');
-// var Container_Keyword = require('./container_keywords.react.js');
 var SearchBar = require('./search.react.js');
 var Container = require('./container.react.js');
 var Multi_Post = require('./multi_posts.react.js');
@@ -9,14 +7,10 @@ var Multi_Keyword = require('./multi_keywords.react.js');
 var StreamAPI = require('../API/streamsAPI.js');
 var FluxCartActions = require('../Actions/streamsAction');
 
-//var Droppable  = require('react-drag-and-drop');
-
 import { Button, Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
 import Cookie from 'react-cookies';
 import Popover from 'react-simple-popover';
-
-
 
 // Method to retrieve state from Stores
 function getCartState() {
@@ -368,11 +362,6 @@ var StreamApp = React.createClass({
   },
 
   streamDragStart: function (e) {
-    // e.stopPropagation()
-    // var data = {
-    //   type: 'stream'
-    // };
-    // e.dataTransfer.setData('text', JSON.stringify(data));
     this.dragged = e.currentTarget;
     e.dataTransfer.effectAllowed = 'move';
 
@@ -382,11 +371,6 @@ var StreamApp = React.createClass({
   },
 
   streamDragEnd: function (e) {
-    // e.stopPropagation()
-    // var data = {
-    //   type: 'stream'
-    // };
-    // e.dataTransfer.setData('text', JSON.stringify(data));
     this.dragged.style.display = "block";
     this.dragged.parentNode.removeChild(placeholder);
 
@@ -406,12 +390,6 @@ var StreamApp = React.createClass({
     e.target.parentNode.insertBefore(placeholder, e.target);
   },
 
-  // componentDidMount: function(){
-  //   if (this.state.showSearch)
-  //     this.searchInput.focus();
-  // },
-
-
   // Render our child components, passing state via props
   render: function () {
     // console.log(this.state)
@@ -427,19 +405,6 @@ var StreamApp = React.createClass({
 
     // console.log(Multi_Keyword)
     if ("data" in this.state && this.state.data.length != 0) {
-      // var post = (this.state.data).map(function (datas, i) {
-      //   return (
-      //     <Multi_Post posts={datas.post} key={i} />
-      //   )
-      // })
-
-      // var keyword = (this.state.data).map(function (datas, i) {
-      //   return (
-      //     <Multi_Keyword keywords={datas.keyword} key={i} />
-      //   )
-      // }
-      // )
-
       let _this = this;
       var container = (this.state.data).map(function (datas, i) {
         let closeStream = function (e) {

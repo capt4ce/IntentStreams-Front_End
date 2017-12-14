@@ -24,10 +24,7 @@ var Multi_Keyword = React.createClass({
       );
 
     });
-
-    // if (this.props.keywords.length == 0)
-    //   return null;
-
+    
     return (
       <div  className='keyword' id='keywordList' onClick={this.handleClick}>
         {this.props.query + ":"}

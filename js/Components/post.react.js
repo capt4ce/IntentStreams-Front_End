@@ -4,17 +4,6 @@ import { Label } from 'react-bootstrap';
 import { Draggable } from 'react-drag-and-drop';
 
 var Post = React.createClass({
-	// componentDidMount: function () {
-	// 	this.setState({
-	// 		showDetail: false
-	// 	});
-	// 	this.state = {
-	// 		showDetail: false
-	// 	}
-	// 	console.log(this.state)
-
-	// },
-
 	getInitialState: function () {
 		return {
 			showDetail: false
@@ -26,9 +15,6 @@ var Post = React.createClass({
 		this.setState({
 			showDetail: true
 		});
-		// this.state = {
-		// 	showDetail: true
-		// }
 	},
 
 	hideDetail: function () {
@@ -36,9 +22,6 @@ var Post = React.createClass({
 		this.setState({
 			showDetail: false
 		});
-		// this.state = {
-		// 	showDetail: false
-		// }
 	},
 
 	postDrag: function (e) {
@@ -103,11 +86,6 @@ var Post = React.createClass({
 					<div><label>Description</label>{this.props.post.description}</div>
 				</div>
 			);
-		// return (
-		// 	<div className='post-body' onClick={this.showDetail}>
-		// 		{this.props.post.title}
-		// 	</div>
-		// );
 	}
 
 });
