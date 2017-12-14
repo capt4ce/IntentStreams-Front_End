@@ -11,6 +11,7 @@ import { Button, Modal } from 'react-bootstrap';
 import { Droppable } from 'react-drag-and-drop';
 import Cookie from 'react-cookies';
 import Popover from 'react-simple-popover';
+import { Label } from 'react-bootstrap';
 
 // Method to retrieve state from Stores
 function getCartState() {
@@ -442,9 +443,16 @@ var StreamApp = React.createClass({
     var bookmarks = Cookie.load('bookmark')
     console.log(bookmarks)
     if (bookmarks) {
+      let _this = this;
       // bookmarks = JSON.parse(bookmarks)
-      var newBookmarks = bookmarks.map(val => {
-        return (<li><a href={val.link}>{val.name}</a></li>)
+      var newBookmarks = bookmarks.map((val, i) => {
+        let deleteBookmark = function () {
+          let presentCookie = Cookie.load('bookmark')
+          presentCookie.splice(i, 1)
+          Cookie.save('bookmark', presentCookie)
+          _this.setState(_this.state)
+        }
+        return (<li><Label bsStyle="danger" onClick={deleteBookmark} style={{ marginRight: "1px" }}>X</Label><a href={val.link}>{val.name}</a></li>)
       })
     }
     else
