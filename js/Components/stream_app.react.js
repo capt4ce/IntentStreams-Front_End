@@ -330,7 +330,7 @@ var StreamApp = React.createClass({
   },
 
   handleClosePop: function (e) {
-    console('closing pop')
+    console.log('closing pop')
     e.stopPropagation()
     this.setState({
       data: this.state.data,
@@ -346,7 +346,7 @@ var StreamApp = React.createClass({
   },
 
   handleOpenPop: function (e) {
-    console('opening pop')
+    console.log('opening pop')
     e.stopPropagation()
     this.setState({
       data: this.state.data,
@@ -450,19 +450,20 @@ var StreamApp = React.createClass({
     else
       var newBookmarks = null
 
-    let Hints = () =>{
-      <ul style={{listStyle: "none"}}>
+    let Hints = () => {
+      <ul style={{ listStyle: "none" }}>
         {(this.state.popupHints).map(function (val, i) {
-        return (
-          <li>{val}</li>
-        )
-      })}
+          return (
+            <li>{val}</li>
+          )
+        })}
       </ul>
     }
 
     return (
       <div className="flux-streams-app" onClick={this.showSearch} onDragOver={this.preventDefault} onDrop={this.drop}>
         <button className="btn btn-warning" onClick={this.openBookmarksModal}>Bookmarks</button>
+
         {search}
         {container}
 
@@ -495,7 +496,7 @@ var StreamApp = React.createClass({
           show={this.state.openPopup}
           target={this.refs.target}
           onHide={this.handleClosePop} >
-          {this.state.popupHints.length==0?<p>Loading...</p>:<Hints />}
+          {this.state.popupHints.length == 0 ? <p>Loading...</p> : <Hints />}
         </Popover>
       </div >
     );
